@@ -15,6 +15,14 @@ import java.util.Iterator;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import android.content.res.AssetManager;
+import android.util.Log;
+import org.json.JSONObject;
+import java.io.IOException;
+import java.io.InputStream;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+
 
 @CapacitorPlugin(
   name = "FirebaseAnalytics",
@@ -36,17 +44,48 @@ public class FirebaseAnalytics extends Plugin {
   private final String MISSING_REF_MSSG =
     "Firebase analytics is not initialized";
 
-  @Override
-  public void load() {
-    super.load();
-
-    // Obtain the FirebaseAnalytics instance.
-    mFirebaseAnalytics =
-      com.google.firebase.analytics.FirebaseAnalytics.getInstance(
-        bridge.getActivity()
-      );
+    @Override
+    public void load() {
+      super.load();
+  
+      AssetManager assetManager = bridge.getActivity().getAssets();
+      String json = null;
+      try {
+          InputStream is = assetManager.open("gtm-google-services.json");
+          int size = is.available();
+          byte[] buffer = new byte[size];
+          is.read(buffer);
+          is.close();
+          json = new String(buffer, "UTF-8");
+  
+          JSONObject jsonObject = new JSONObject(json);
+          JSONObject projectInfo = jsonObject.getJSONObject("project_info");
+          JSONObject clientInfo = jsonObject.getJSONArray("client").getJSONObject(0).getJSONObject("client_info");
+  
+         
+          String applicationId = clientInfo.getString("mobilesdk_app_id");
+          String apiKey = jsonObject.getJSONArray("client").getJSONObject(0).getJSONArray("api_key").getJSONObject(0).getString("current_key");
+          String gcmSenderId = projectInfo.getString("project_number");
+          String storageBucket = projectInfo.getString("storage_bucket");
+  
+          FirebaseOptions secondaryOptions = new FirebaseOptions.Builder()
+                  .setApplicationId(applicationId)
+                  .setApiKey(apiKey)
+                  .setGcmSenderId(gcmSenderId)
+                  .setStorageBucket(storageBucket)
+                  .build();
+  
+          FirebaseApp.initializeApp(bridge.getActivity().getApplicationContext(), secondaryOptions, "gtm");
+  
+          FirebaseApp secondaryApp = FirebaseApp.getInstance("gtm");
+          mFirebaseAnalytics = com.google.firebase.analytics.FirebaseAnalytics.getInstance(secondaryApp.getApplicationContext());
+      } catch (IOException ex) {
+          Log.e("FirebasePlugin", "Failed to open asset file", ex);
+      } catch (JSONException ex) {
+          Log.e("FirebasePlugin", "Failed to parse JSON", ex);
+      }
   }
-
+  
   /**
    * Sets the user ID property.
    * @param call - userId: unique identifier of the user to log
