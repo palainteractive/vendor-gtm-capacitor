@@ -10,6 +10,7 @@ end
 target 'Plugin' do
   capacitor_pods
   pod 'Firebase/Analytics'
+  pod 'GoogleTagManager', '~> 6.0'
 end
 
 target 'PluginTests' do
