@@ -1,50 +1,25 @@
 {
-  "_from": "@capacitor-community/firebase-analytics@4.0.0",
-  "_id": "@capacitor-community/firebase-analytics@4.0.0",
-  "_inBundle": false,
-  "_integrity": "sha512-TwsIz504IrpVajdv5Fv01SYRJqo85oPz2j99xG+NGPCpn110jSRxC6EeHwRLCur8QpGokKlp4y1hd5utUvVUYw==",
-  "_location": "/@capacitor-community/firebase-analytics",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "version",
-    "registry": true,
-    "raw": "@capacitor-community/firebase-analytics@4.0.0",
-    "name": "@capacitor-community/firebase-analytics",
-    "escapedName": "@capacitor-community%2ffirebase-analytics",
-    "scope": "@capacitor-community",
-    "rawSpec": "4.0.0",
-    "saveSpec": null,
-    "fetchSpec": "4.0.0"
+  "name": "@capacitor-community/firebase-analytics",
+  "version": "4.0.0",
+  "description": "A native plugin for firebase analytics.",
+  "homepage": "https://github.com/capacitor-community/firebase-analytics",
+  "main": "dist/plugin.cjs.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "unpkg": "dist/plugin.js",
+  "scripts": {
+    "build": "npm run clean && tsc && rollup -c rollup.config.js",
+    "clean": "rimraf ./dist",
+    "watch": "tsc --watch",
+    "prepublishOnly": "npm run build",
+    "release": "np",
+    "test": "echo \"No test specified\""
   },
-  "_requiredBy": [
-    "#USER",
-    "/"
-  ],
-  "_resolved": "https://registry.npmjs.org/@capacitor-community/firebase-analytics/-/firebase-analytics-4.0.0.tgz",
-  "_shasum": "feb5ebd4ff111a8e7205660e2281a237bbdc81cd",
-  "_spec": "@capacitor-community/firebase-analytics@4.0.0",
-  "_where": "/Users/tomsebastian/workspace/rt",
-  "author": {
-    "name": "mesur.io",
-    "email": "oss@mesur.io"
-  },
-  "bugs": {
-    "url": "https://github.com/capacitor-community/firebase-analytics/issues"
-  },
-  "bundleDependencies": false,
-  "capacitor": {
-    "ios": {
-      "src": "ios"
-    },
-    "android": {
-      "src": "android"
-    }
-  },
+  "author": "mesur.io <oss@mesur.io>",
+  "license": "MIT",
   "dependencies": {
     "@capacitor/core": "^4.0.0"
   },
-  "deprecated": false,
-  "description": "A native plugin for firebase analytics.",
   "devDependencies": {
     "@capacitor/android": "^4.0.0",
     "@capacitor/ios": "^4.0.0",
@@ -57,6 +32,11 @@
     "rollup": "^2.29.0",
     "typescript": "^4.2.3"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
   "files": [
     "android/src/main/",
     "android/build.gradle",
@@ -64,34 +44,24 @@
     "ios/Plugin/",
     "CapacitorCommunityFirebaseAnalytics.podspec"
   ],
-  "homepage": "https://github.com/capacitor-community/firebase-analytics",
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
-    }
-  },
   "keywords": [
     "capacitor",
     "plugin",
     "native"
   ],
-  "license": "MIT",
-  "main": "dist/plugin.cjs.js",
-  "module": "dist/esm/index.js",
-  "name": "@capacitor-community/firebase-analytics",
+  "capacitor": {
+    "ios": {
+      "src": "ios"
+    },
+    "android": {
+      "src": "android"
+    }
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/capacitor-community/firebase-analytics.git"
+    "url": "https://github.com/capacitor-community/firebase-analytics"
   },
-  "scripts": {
-    "build": "npm run clean && tsc && rollup -c rollup.config.js",
-    "clean": "rimraf ./dist",
-    "prepublishOnly": "npm run build",
-    "release": "np",
-    "test": "echo \"No test specified\"",
-    "watch": "tsc --watch"
-  },
-  "types": "dist/esm/index.d.ts",
-  "unpkg": "dist/plugin.js",
-  "version": "4.0.0"
+  "bugs": {
+    "url": "https://github.com/capacitor-community/firebase-analytics/issues"
+  }
 }
