@@ -17,7 +17,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import android.content.res.AssetManager;
 import android.util.Log;
-import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import com.google.firebase.FirebaseApp;
@@ -47,62 +46,66 @@ public class FirebaseAnalytics extends Plugin {
     @Override
     public void load() {
       super.load();
-      Log.d("FirebasePlugin", "Starting load() method");
+           mFirebaseAnalytics =
+             com.google.firebase.analytics.FirebaseAnalytics.getInstance(
+                     bridge.getActivity()
+             );
+//       Log.d("FirebasePlugin", "Starting load() method");
 
-      AssetManager assetManager = bridge.getActivity().getAssets();
-      String json = null;
+//       AssetManager assetManager = bridge.getActivity().getAssets();
+//       String json = null;
 
-      try {
-        InputStream is = assetManager.open("gtm-google-services.json");
-        int size = is.available();
-        byte[] buffer = new byte[size];
-        is.read(buffer);
-        is.close();
+//       try {
+//         InputStream is = assetManager.open("gtm-google-services.json");
+//         int size = is.available();
+//         byte[] buffer = new byte[size];
+//         is.read(buffer);
+//         is.close();
 
-        json = new String(buffer, "UTF-8");
-//        Log.d("FirebasePlugin", "JSON Content: " + json);
+//         json = new String(buffer, "UTF-8");
+// //        Log.d("FirebasePlugin", "JSON Content: " + json);
 
        
-        JSONObject jsonObject = new JSONObject(json);
-        JSONObject projectInfo = jsonObject.getJSONObject("project_info");
-        JSONObject clientInfo = jsonObject.getJSONArray("client").getJSONObject(0).getJSONObject("client_info");
+//         JSONObject jsonObject = new JSONObject(json);
+//         JSONObject projectInfo = jsonObject.getJSONObject("project_info");
+//         JSONObject clientInfo = jsonObject.getJSONArray("client").getJSONObject(0).getJSONObject("client_info");
 
-        String applicationId = clientInfo.getString("mobilesdk_app_id");
-        String apiKey = jsonObject.getJSONArray("client").getJSONObject(0).getJSONArray("api_key").getJSONObject(0).getString("current_key");
-        String gcmSenderId = projectInfo.getString("project_number");
-        String storageBucket = projectInfo.getString("storage_bucket");
-        String projectId = projectInfo.getString("project_id");
+//         String applicationId = clientInfo.getString("mobilesdk_app_id");
+//         String apiKey = jsonObject.getJSONArray("client").getJSONObject(0).getJSONArray("api_key").getJSONObject(0).getString("current_key");
+//         String gcmSenderId = projectInfo.getString("project_number");
+//         String storageBucket = projectInfo.getString("storage_bucket");
+//         String projectId = projectInfo.getString("project_id");
 
-        Log.d("FirebasePlugin", "Building FirebaseOptions");
-        Log.d("FirebasePlugin", "Application ID: " + applicationId);
-        Log.d("FirebasePlugin", "API Key: " + apiKey);
-        Log.d("FirebasePlugin", "GCM Sender ID: " + gcmSenderId);
-        Log.d("FirebasePlugin", "Storage Bucket: " + storageBucket);
-        Log.d("FirebasePlugin", "Project ID: " + projectId);
-        
-        FirebaseOptions secondaryOptions = new FirebaseOptions.Builder()
-                .setProjectId(projectId)
-                .setApplicationId(applicationId)
-                .setApiKey(apiKey)
-                .setGcmSenderId(gcmSenderId)
-                .setStorageBucket(storageBucket)
-                .build();
+//         Log.d("FirebasePlugin", "Building FirebaseOptions");
+//         Log.d("FirebasePlugin", "Application ID: " + applicationId);
+//         Log.d("FirebasePlugin", "API Key: " + apiKey);
+//         Log.d("FirebasePlugin", "GCM Sender ID: " + gcmSenderId);
+//         Log.d("FirebasePlugin", "Storage Bucket: " + storageBucket);
+//         Log.d("FirebasePlugin", "Project ID: " + projectId);
 
-        Log.d("FirebasePlugin", "Initializing Firebase");
-        FirebaseApp.initializeApp(bridge.getActivity().getApplicationContext(), secondaryOptions, "gtm");
+//         FirebaseOptions secondaryOptions = new FirebaseOptions.Builder()
+//                 .setProjectId(projectId)
+//                 .setApplicationId(applicationId)
+//                 .setApiKey(apiKey)
+//                 .setGcmSenderId(gcmSenderId)
+//                 .setStorageBucket(storageBucket)
+//                 .build();
 
-        FirebaseApp secondaryApp = FirebaseApp.getInstance("gtm");
-        mFirebaseAnalytics = com.google.firebase.analytics.FirebaseAnalytics.getInstance(secondaryApp.getApplicationContext());
+//         Log.d("FirebasePlugin", "Initializing Firebase");
+//         FirebaseApp.initializeApp(bridge.getActivity().getApplicationContext(), secondaryOptions, "gtm");
 
-        Log.d("FirebasePlugin", "Firebase initialized");
-        mFirebaseAnalytics.logEvent("my_test_event", null);
-        Log.d("FirebasePlugin", "Test event logged");
+//         FirebaseApp secondaryApp = FirebaseApp.getInstance("gtm");
+//         mFirebaseAnalytics = com.google.firebase.analytics.FirebaseAnalytics.getInstance(secondaryApp.getApplicationContext());
+//         Log.d("FirebasePlugin", "FirebaseAnalytics Instance: " + mFirebaseAnalytics.toString());
+//         Log.d("FirebasePlugin", "Firebase initialized");
+//         mFirebaseAnalytics.logEvent("my_test_event", null);
+//         Log.d("FirebasePlugin", "Test event logged");
 
-      } catch (IOException ex) {
-        Log.e("FirebasePlugin", "Failed to open asset file", ex);
-      } catch (JSONException ex) {
-        Log.e("FirebasePlugin", "Failed to parse JSON", ex);
-      }
+//       } catch (IOException ex) {
+//         Log.e("FirebasePlugin", "Failed to open asset file", ex);
+//       } catch (JSONException ex) {
+//         Log.e("FirebasePlugin", "Failed to parse JSON", ex);
+//       }
     }
 
   /**
