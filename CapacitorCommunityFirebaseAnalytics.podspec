@@ -13,5 +13,5 @@ Pod::Spec.new do |s|
     s.static_framework = true
     s.dependency 'Capacitor'
     s.dependency 'Firebase/Analytics'
-    s.dependency 'GoogleTagManager', '~> 7.0'
+    s.dependency 'GoogleTagManager', '~> 7.4'
   end
