@@ -12,6 +12,6 @@ Pod::Spec.new do |s|
     s.ios.deployment_target  = '13.0'
     s.static_framework = true
     s.dependency 'Capacitor'
-    s.dependency 'Firebase/Analytics'
-    s.dependency 'GoogleTagManager', '~> 7.0'
+    s.dependency 'Firebase/Analytics', '~> 10.23'
+    s.dependency 'GoogleTagManager', '~> 7.4'
   end
